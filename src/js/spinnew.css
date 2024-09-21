@@ -1,0 +1,73 @@
+
+@keyframes spinner-line-fade-more {
+    0%, 100% {
+      opacity: 0; /* minimum opacity */
+    }
+    1% {
+      opacity: 1;
+    }
+  }
+  
+  @keyframes spinner-line-fade-quick {
+    0%, 39%, 100% {
+      opacity: 0.25; /* minimum opacity */
+    }
+    40% {
+      opacity: 1;
+    }
+  }
+  
+  @keyframes spinner-line-fade-default {
+    0%, 100% {
+      opacity: 0.22; /* minimum opacity */
+    }
+    1% {
+      opacity: 1;
+    }
+  }
+  
+  @keyframes spinner-line-shrink {
+    0%, 25%, 100% {
+      /* minimum scale and opacity */
+      transform: scale(0.5);
+      opacity: 0.25;
+    }
+    26% {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+  
+  .loading {
+    width: 100px;
+    height: 100px;
+    position: relative;
+  }
+  
+  /* .shape {
+    width: 100px;
+    height: 100px;
+    position: absolute;
+    opacity: 0.2;
+  }
+  
+  .shape-1 {
+    animation: animationShape1 3s ease infinite;
+  }
+  
+  @keyframes animationShape1 {
+    0% {
+      transfrom: scale(1);
+      opacity: 0.2;
+    }
+  
+    50% {
+      transform: scale(1.5);
+      opacity: 1;
+    }
+  
+    100% {
+      transfrom: scale(0.5);
+      opacity: 0.2;
+    }
+  } */

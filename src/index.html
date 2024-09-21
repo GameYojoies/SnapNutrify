@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <link rel="shortcut icon" href="#" />
+    <link rel="stylesheet" href="js/spinnew.css?version=1.1.38" />
+    <link rel="stylesheet" href="css/login.css">
+    <link rel="stylesheet" href="css/main.css">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
+    <link rel="stylesheet" href="css/quill.core.css?version=1.3.6" />
+    <link rel="stylesheet" href="css/quill.mention.min.css?version=3.1.0" />
+    <script language="javascript" type="text/javascript" src="js/jquery.js?version=1.0.0.1"></script>
+    <script language="javascript" type="text/javascript" src="js/jquery.transit.js?version=1.0.0.1"></script>
+    <script language="javascript" type="text/javascript" src="js/base64.js"></script>
+    <script language="javascript" type="text/javascript" src="js/widget.js"></script>
+    <script language="javascript" type="text/javascript" src="js/wsFormat.js"></script>
+    <script language="javascript" type="text/javascript" src="js/iscroll-probe.js"></script>
+    <script language="javascript" type="text/javascript" src="js/pic.js?version=1.0.1"></script>
+    <script language="javascript" type="text/javascript" src="js/clipboard.min.js"></script>
+    <script language="javascript" type="text/javascript" src="js/spinnew.js?version=1.0.0.1"></script>
+    <script language="javascript" type="text/javascript" src="js/quill.min.js?version=1.3.6"></script>
+    <script language="javascript" type="text/javascript" src="js/quill.mention.min.js?version=3.1.0"></script>
+    <script language="javascript" type="text/javascript" src="js/language.js"></script>
+    <script language="javascript" type="text/javascript" src="js/swiper.js"></script>
+    <script language="javascript" type="text/javascript" src="js/swiperSlide.js"></script>
+  
+</head>
+
+<style>
+    /* all display */
+    html {
+        user-select: none;
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        -webkit-tap-highlight-color: transparent;
+        scroll-behavior: smooth;
+        font-family: MyCustomFontLato, sans-serif;
+        /* font-weight: bold; */
+    }
+
+    .flexCenter {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .flexLeft {
+        display: flex;
+        justify-content: left;
+        align-items: left;
+    }
+
+    .flexRight {
+        display: flex;
+        justify-content: right;
+        align-items: center;
+    }
+
+    .flexTop {
+        display: flex;
+        justify-content: start;
+        align-items: center;
+    }
+
+    .flexBottom {
+        display: flex;
+        justify-content: end;
+        align-items: center;
+    }
+
+    .flexSpac {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .flexCenter_c {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+    }
+
+    .flexLeft_c {
+        display: flex;
+        justify-content: left;
+        align-items: left;
+        flex-direction: column;
+    }
+
+    .flexRight_c {
+        display: flex;
+        justify-content: right;
+        align-items: center;
+        flex-direction: column;
+    }
+
+    .flexTop_c {
+        display: flex;
+        justify-content: start;
+        align-items: center;
+        flex-direction: column;
+    }
+
+    .flexBottom_c {
+        display: flex;
+        justify-content: end;
+        align-items: center;
+        flex-direction: column;
+    }
+
+    .flexSpac_c {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-direction: column;
+    }
+</style>
+
+<body style="overflow: hidden; margin: 0px;">
+    <div id="root"></div>
+
+    <div id="messageBox"
+        style="z-index: 997;position: absolute;left: 0px;top: 0px;display: none;width: 1px;height: 1px;">
+        <div id="messageBoxBg" style="position: absolute;left: 0px;top: 0px;background-color: #000000;opacity: 0.7;">
+        </div>
+        <div id="messageBoxBodyBg"
+            style="position: absolute;left: 0px;top: 0px;display: flex;justify-content: center;align-items: center;">
+            <div id="messageBoxBody"
+                style="background-color: #f7f7f7;border-radius: 15px;box-shadow: 0px 0px 5px 5px rgb(0, 0, 0,0.2);">
+                <div style="height: 20px;"></div>
+                <div id="msgContent"
+                    style="text-align: center;width: 80%;height: 140px;display: flex;justify-content: center;align-items: center;margin: auto;">
+                    Content
+                </div>
+                <div
+                    style="width: 100%;height:30px;display: flex;justify-content: center;align-items: center;margin-top: 3px;">
+                    <div id="msgBtnOK"
+                        style="width:100%;height:45px;background-color:#ff5b5a;border-radius:0px 0px 0px 5px;display: flex;justify-content: center;align-items: center;color: #ffffff;">
+                        确认</div>
+
+                    <div style="background-color:#868686;width:2px"></div>
+                    <div id="msgBtnCancel"
+                        style="width:100%;height:45px;background-color:#ededed;border-radius: 0px 0px 5px 0px;display: flex;justify-content: center;align-items: center;">
+                        取消</div>
+                </div>
+                <div style="height: 10px;"></div>
+            </div>
+        </div>
+    </div>
+    <div id="messagePage"
+        style="z-index: 996;position: absolute;left: 0px;top: 0px;display: none;width: 1px;height: 1px;">
+        <div id="messagePageBg" style="position: absolute;left: 0px;top: 0px;background-color: #000000;opacity: 0.7;">
+        </div>
+        <div id="messagePageBodyBg"
+            style="position: absolute;left: 0px;top: 0px;display: flex;justify-content: center;align-items: center;">
+            <div id="messagePageBody"
+                style="background-color: #f7f7f7;border-radius: 15px;box-shadow: 0px 0px 5px 5px rgb(0, 0, 0,0.2);">
+                <div style="height: 30px;display: flex;">
+                    <div id="msgPageBtnClose"
+                        style="display: none;justify-content: center;align-items: center;width: 30px;height: 100%;">
+                        x
+                    </div>
+                </div>
+                <div id="msgPageContent"
+                    style="width: 100%;height:160px;display: flex;justify-content: center;align-items: center;">
+                    Content
+                </div>
+                <div style="height: 10px;"></div>
+            </div>
+        </div>
+    </div>
+    <div id="alert"
+        style="display: none;z-index: 998;position: absolute;left: 0px;top: 0px;background-color: #000000;opacity: 0.9;justify-content: center;align-items: center;">
+        <div id="alertMsg"
+            style="display: flex;justify-content: center;align-items: center;background-color: #cccccc;border-radius: 20px;padding: 10px;">
+
+        </div>
+    </div>
+    <div id="loader"
+        style="display: none;z-index: 999;position: absolute;left: 0px;top: 0px;background-color: #000000;opacity: 0.4;justify-content: center;align-items: center;">
+
+    </div>
+
+</body>
+
+</html>
+<script>
+
+
+    // test
+    var API_SERVER = "http://18.143.194.72/solar";
+    var WS_SERVER = "ws://18.143.194.72/solarWs/ws/session?Authorization=";
+
+
+
+    var token = null;
+    var deviceId = null;
+    var platform = null;
+    var refreshTokenTimer = null;
+    var heartBeatTimer = null;
+    var heartBeatTimeStamp = 0;
+
+    var TIMEOUT = 10000;
+    var PAGETIMEOUT = 300;//页面切换时间
+
+
+    var w = $(window).width();
+    var h = $(window).height();
+
+    var headH = 70;
+    var menuH = 60;
+
+    var alertObj = new alert();
+    alertObj.init();
+    var loaderObj = new loader();
+    loaderObj.init();
+    var msgObj = new messageBox();
+    msgObj.init();
+    var msgPageObj = new messagePage();
+    msgPageObj.init();
+
+
+    var lang = localStorage.getItem('Language')
+    if (lang == '' || lang == null) {
+        localStorage.setItem('Language', 'EN')
+    }
+
+    var mResObj = new resObj("res.json");
+    mResObj.setSuccessFun(startApp);
+    mResObj.setErrorFun(errorApp);
+
+    mResObj.init();
+    mResObj.load();
+
+    function startApp() {
+
+        mResObj.showHtml("lang.html", "root");
+        mResObj.showHtml("start.html", "root");
+        mResObj.showHtml("main.html", "root");
+        mResObj.showHtml("login.html", "root");
+        mResObj.showHtml("register.html", "root");
+
+        // mainObj.checkIsLogin();
+
+        setAllPageLang()
+
+
+    }
+    function errorApp() {
+        console.log("load error");
+    }
+
+    function onBackPressed() {
+        console.log('========>');
+    }
+
+    function setKeyboardHeight(mH) {
+        chatRoomObj.setKeyboardHeight(mH);
+    }
+
+    function setDeviceId(mDeviceId, mPlatform) {
+        deviceId = mDeviceId;
+        platform = mPlatform;
+    }
+
+    function appComeback() {
+        var t = new Date();
+        console.log("i'm back !" + t.getTime());
+        //loginObj.checkLoginStatusWithRefreshToken();
+    }
+
+
+</script>

@@ -1,0 +1,222 @@
+html {
+    user-select: none;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    font-family: 'Roboto', sans-serif
+}
+
+/* main */
+
+
+.bg-foot-all {
+    background-color: #fff;
+    color: #fff;
+    /* border-radius: 20px 20px 0 0; */
+    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1p
+}
+
+.bg-accent-color {
+    accent-color: #457BFF;
+}
+
+.bg-my {
+    background-color: #fff;
+}
+
+
+input:focus,
+select:focus {
+    outline: none;
+}
+
+.swal2-modal .swal2-styled:focus {
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+
+.swal2-container>.swal2-popup {
+    width: 80%;
+}
+
+
+.menuCss {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* login */
+
+.flexCenterColW100 {
+    width: 100%;
+    flex-direction: column;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.flexEndColW100 {
+    width: 100%;
+    flex-direction: column;
+    display: flex;
+    justify-content: end;
+    align-items: center;
+}
+
+.flexEndRow80 {
+    display: flex;
+    justify-content: flex-end;
+    width: 80%;
+    position: relative;
+    margin: 10px auto;
+    position: relative;
+}
+
+.flexEndRow80>img {
+    width: 25px;
+    height: 27px;
+    position: absolute;
+    right: 10px;
+    top: 10%;
+    transform: translateY(-50%);
+}
+
+.flexEndRow80>label {
+    font-size: 12px;
+    color: #457BFF;
+    padding-right: 40px;
+}
+
+.pageInit {
+    background: linear-gradient(25deg, #E0EAFC 0%, #8da9f5 100%);
+    position: absolute;
+    flex-direction: column;
+}
+
+.headerSpan {
+    font-size: 20px;
+    font-weight: bolder;
+}
+
+.coverBoxInput {
+    display: flex;
+    justify-content: center;
+    width: 80%;
+    position: relative;
+    margin: 0 auto;
+}
+
+.coverBoxInput>img {
+    position: absolute;
+    left: 20px;
+    width: 25px;
+    height: 25px;
+}
+
+.boxInput {
+    padding: 5px 20px;
+    border: 0px;
+    background-color: #fff;
+    width: 80%;
+    height: 45px;
+    border-radius: 5px;
+    font-size: var(--text-size02);
+    border-radius: 20px;
+    box-shadow: 1px 4px 4px 0px #457BFF3D inset;
+    padding-left: 58px;
+    width: 100%;
+
+}
+
+.btnComm {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #ffffff;
+    background-color: #457BFF;
+    border-radius: 10px;
+    font-weight: bold;
+    width: 80%;
+    height: 45px;
+    border-radius: 20px;
+}
+
+.spanUnderSubmit {
+    width: 90%;
+    height: 40px;
+    font-size: 14px;
+    gap: 10px;
+    font-weight: bold;
+}
+
+.checkbox {
+
+    width: 16px;
+    height: 16px;
+    border-radius: 8px;
+    border: 1px #999999 solid;
+}
+
+.flexCenter.loginImg img {
+    width: 144px;
+    height: 150px;
+}
+
+img.regisImg {
+    width: 150px;
+    height: 150px;
+}
+
+.flexCenter.loginImg,
+.login_bottom,
+.flexCenter.regisImg,
+.regist_bottom {
+    height: 200px;
+}
+
+#login_phone,
+#login_pass,
+#regist_name,
+#regist_mobile,
+#regist_pass,
+#regist_pass2 {
+    top: 16px;
+}
+
+@media screen and (max-width: 376px) {
+
+    .flexCenter.loginImg,
+    .login_bottom,
+    .flexCenter.regisImg,
+    .regist_bottom {
+        height: auto;
+    }
+
+    .flexCenter.loginImg img {
+        width: 150px;
+        height: 150px;
+    }
+
+    img.regisImg {
+        width: 130px;
+        height: 130px;
+    }
+
+    .boxInput {
+        height: 40px;
+    }
+
+    #login_phone,
+    #login_pass,
+    #regist_name,
+    #regist_mobile,
+    #regist_pass,
+    #regist_pass2 {
+        top: 13px;
+    }
+
+}

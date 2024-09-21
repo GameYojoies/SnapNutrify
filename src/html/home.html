@@ -1,0 +1,785 @@
+
+
+<style>
+.focus-frame {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 85%;
+  height: 85%;
+  transform: translate(-50%, -50%);
+  pointer-events: none; /* Ensure the frame does not interfere with interactions */
+}
+</style>
+
+<div
+  class="menuHeader"
+  id="homeHeader"
+  style="
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+    font-weight: 700;
+    background: transparent;
+  "
+>
+    <!--  Header -->
+    <div
+    id="mapSearch_header"
+    style="
+      width: 100%;
+      height: 80px; "
+  >
+    <div
+      style="
+        width: 100%;
+        height: 80px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 5px; "
+    >
+      <!-- BOX 1 icon  -->
+      <div
+        id=""
+        style="height: 100%;"
+        class="flexCenter">
+      <img id="toggle-flash-btn"  style=" width: 28px; cursor: pointer;">  
+      </div>
+      <div style="width: 70%;"></div>
+      <!-- BOX 2 intput Search-->
+      <div
+      id=""
+      style="height: 100%; "
+      class="flexCenter"
+    >
+    <img id="toggle-camera-btn"  style=" width: 28px; cursor: pointer;">
+    <img id="toggle-camera-btn-on"  style=" display: none; width: 28px; cursor: pointer;">
+    </div>
+    </div>
+  </div>
+    <!--  Header  Preview-->
+    <div
+    id="Preview_header"
+    style="
+      width: 100%;
+      height: 80px; 
+      display: none;
+      "
+      
+  >
+    <div
+      style="
+        width: 100%;
+        height: 80px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 5px; "
+    >
+      <!-- BOX 1 icon  -->
+      <div
+        id=""
+        style="height: 100%;"
+        class="flexCenter">
+      <img  id="reset-camera-btn" style=" width: 48px; cursor: pointer;">  
+      </div>
+      <div style="width: 70%;"></div>
+      <!-- BOX 2 intput Search-->
+      <div
+      id=""
+      style="height: 100%; "
+      class="flexCenter"
+    >
+    <img  style=" width: 28px; cursor: pointer;">
+    
+    </div>
+    </div>
+  </div>
+
+</div>
+<div
+  class="menuPage bg-my"
+  id="homePage"
+  style="position: absolute; overflow: hidden; background: transparent"
+>
+  <div id="scrollerMy">
+    <div style="height: auto">
+      <section
+        style="
+          display: flex;
+          flex-direction: column;
+          gap: 12px;
+      
+          justify-content: center;
+          align-items: center;
+        "
+      >
+        <div
+     
+          style="
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+           width: 100%;
+          "
+        >
+       
+        <div id="closeCanera-image" style="height: 65vh;  width: 100%;display: none;    justify-content: center;padding: 10px;">
+          <img
+        
+          alt="closeCaneraPreview"
+         
+          style="  object-fit: cover;  height: 100%; "
+          src="./js/pic/closeCamera.png"
+        />
+        </div>
+
+          <div
+            id="webcam-container"
+            style="display: flex; flex-direction: column; align-items: center ;position: relative;"
+          >
+          <div style="background: linear-gradient(90deg, rgba(205,226,170,1) 0%, rgba(112,124,93,1) 100%); width: 100%; height: 65vh;">
+            <video
+              id="webcam"
+              autoplay
+              playsinline
+              style="width: 100%; height: 100%; object-fit: cover;"
+            ></video>
+            <img src="./js/pic/linecamera.png"" class="focus-frame">
+          </div>
+          
+
+         
+          </div>
+          <div
+            id="image-preview"
+            style="display: flex; flex-direction: column; justify-content: center; align-items: center; width: 100%;  "
+          ></div>
+          <div style="display: flex;width: 100%; ">
+        
+          </div>
+       
+          <div
+            id="error"
+            style="
+              display: none;
+              background-color: #fee2e2;
+              color: #b91c1c;
+              padding: 16px;
+              border-radius: 8px;
+              margin-top: 16px;
+            "
+          ></div>
+          <div
+            id="response"
+            style="
+              display: none;
+              background-color: white;
+              box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+              border-radius: 12px;
+              padding: 16px;
+              margin-top: 16px;
+            "
+          >
+            <h2 style="font-size: 24px; font-weight: bold; margin-bottom: 16px">
+                Response Data
+              </h2>
+              <div id="response-data"></div>
+              <div
+                style="
+                  display: flex;
+                  justify-content: flex-end;
+                  gap: 12px;
+                  margin-top: 16px;
+                "
+              >
+                <button
+                  id="share-btn"
+                  style="
+                    background-color: #3b82f6;
+                    color: white;
+                    padding: 8px 16px;
+                    border-radius: 8px;
+                    cursor: pointer;
+                  "
+                >
+                  Share
+                </button>
+                <button
+                  id="save-btn"
+                  style="
+                    background-color: #3b82f6;
+                    color: white;
+                    padding: 8px 16px;
+                    border-radius: 8px;
+                    cursor: pointer;
+                  "
+                >
+                  Save
+                </button>
+
+                <div id="meal-type-container" style="display: flex; flex-direction: column; align-items: center; gap: 12px;">
+                  <label for="meal-type" style="font-size: 16px; font-weight: bold;">Select Meal Type:</label>
+                  <select id="meal-type" style="padding: 8px; border-radius: 4px; border: 1px solid #d1d5db;">
+                    <option value="" disabled selected>Select a meal type</option>
+                    <option value="Breakfast">Breakfast</option>
+                    <option value="Lunch">Lunch</option>
+                    <option value="Dinner">Dinner</option>
+                    <option value="Snack">Snack</option>
+                  </select>
+                </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+  <div id="head-controls" class="flexCenter">
+    <div id="controls" style="width: 100%; display: flex;flex-direction: column; gap: 5px; height: 100%;justify-content: space-evenly;">
+      <h1 style="color: #5F8458; text-align: center;  ">PHOTO</h1>
+      <div
+      style="
+          display: flex;
+  justify-content: space-around;
+  align-items: center;
+  gap: 20px;
+      "
+    >
+  <div style="width: 72px; display: flex; justify-content: center; align-items: center;">
+  <img
+  src="./js/pic/file-image.png"
+  id="file-picker"
+    style="
+     width: 39px;
+      color: white;
+      cursor: pointer;
+    "
+  >
+  <input
+  type="file"
+  id="image-input"
+  accept="image/*"
+  style="
+    margin-top: 8px;
+    border: 1px solid #d1d5db;
+    padding: 8px;
+    border-radius: 4px;
+    display: none;
+  "
+  />
+  </div>
+     
+      <img
+      src="./js/pic/capture.png"
+        id="capture-btn"
+        style="
+         width: 72px;
+          color: white;
+          cursor: pointer;
+        "
+      >
+    <div style="width: 72px;">
+  
+    </div>
+     
+    </div>
+     
+      <!-- ปุ่มเปิด/ปิดแฟลช -->
+  
+    
+      <!-- <button
+      id="submit-btn"
+      style="
+        background-color: #3b82f6;
+        color: white;
+        padding: 8px 16px;
+        border-radius: 8px;
+        margin-top: 8px;
+        cursor: pointer;
+      "
+    >
+      Processing
+    </button> -->
+    </div>
+  </div>
+  <!-- prewive -->
+  <div id="preview-footer" class="flexCenter" style="display: none;">
+    <div id="controls-preview" style="width: 100%; display: flex;flex-direction: column; gap: 5px; height: 100%;justify-content: space-evenly;">
+      <h1 style="color: #5F8458; text-align: center;  ">PHOTO</h1>
+      <div
+      style="
+          display: flex;
+  justify-content: space-around;
+  align-items: center;
+  gap: 20px;"
+    >
+  <div style="width: 72px; display: flex; justify-content: center; align-items: center;">
+  <img
+  src="./js/pic/file-image.png"
+  id="file-picker"
+    style="
+     width: 39px;
+      color: white;
+      cursor: pointer;
+    "
+  >
+  <input
+  type="file"
+  id="image-input"
+  accept="image/*"
+  style="
+    margin-top: 8px;
+    border: 1px solid #d1d5db;
+    padding: 8px;
+    border-radius: 4px;
+    display: none;
+  "
+  />
+  </div>
+     
+      <img
+      src="./js/pic/capture.png"
+        id="capture-btn"
+        style="
+         width: 72px;
+          color: white;
+          cursor: pointer;
+        "
+      >
+    <div style="width: 72px;">
+  
+    </div>
+     
+    </div>
+    
+      <!-- ปุ่มเปิด/ปิดแฟลช -->
+  
+    
+      <!-- <button
+      id="submit-btn"
+      style="
+        background-color: #3b82f6;
+        color: white;
+        padding: 8px 16px;
+        border-radius: 8px;
+        margin-top: 8px;
+        cursor: pointer;
+      "
+    >
+      Processing
+    </button> -->
+    </div>
+  </div>
+  
+</div>
+
+<script>
+  var homeObj = new home();
+  homeObj.init();
+
+  function home() {
+    var myScroll;
+    var imageFile = null;
+    var videoStream = null;
+    var flashOn = false;
+    var responseData; // ตัวแปรที่เก็บข้อมูล data
+
+
+var defaultPrompt = 
+  `Analyze the food in this image and send the nutritional information in the following JSON format only:
+  ""{
+  "food_items": [
+    {
+      "Item Name": "Hawaiian Pizza",
+      "Calories": 400,
+      "Fat": 20,
+      "Carbohydrates": 40,
+      "Protein": 15,
+      "Sugars": 10,
+      "Sodium": 800,
+      "Vitamins": {
+      "Vitamin A": "50 mcg",
+      "Vitamin C": "10 mg",
+      "Vitamin D": "2 mg",
+      "Vitamin E": "2 mg"
+      }
+    }
+  ]
+}""
+  Ensure that the output strictly follows this format with similar nutritional details for the food item.`
+
+    this.init = function () {
+
+// icon  
+$('#toggle-flash-btn').attr("src", picRes['flash.png'])
+
+$('#toggle-camera-btn').attr("src", picRes['cameraclose.png'])
+$('#toggle-camera-btn-on').attr("src", picRes['cameraOp.png'])
+$('#reset-camera-btn').attr("src", picRes['backPreview.png'])
+
+      $("#homeHeader").css({
+        width: "100%",
+        height: headH,
+        left: -1.0 * w,
+        top: 0,
+      });
+      $("#homePage").css({
+        width: w,
+        height: h - headH - menuH,
+        position: "absolute",
+        left: -1.0 * w,
+        top: headH,
+      });
+      $("#head-controls").css({
+        position: "absolute",
+        width: "100%",
+        height: h - headH - menuH - (0.65 * h) 
+      });
+      $("#preview-footer").css({
+        position: "absolute",
+        width: "100%",
+        height: h - headH - menuH - (0.55 * h) 
+      });
+   
+      myScroll = new IScroll("#homePage", { probeType: 1, mouseWheel: true });
+      loadList();
+    };
+
+    this.call = function () {
+      $("#homePage").transition(
+        {
+          x: w,
+        },
+        0
+      );
+      $("#homeHeader").transition(
+        {
+          x: w,
+        },
+        0
+      );
+      myScroll.refresh();
+    };
+  
+    // ปิดดดดดดดดดดดดดดดดดดดดดดดดดดดดดดดด
+    // Show webcam and controls
+    $("#webcam-container").show();
+    $("#controls").show();
+    startWebcam();
+  
+   // Toggle camera ปิดกล้องและแสดงรูปแทน
+$("#toggle-camera-btn").click(function () {
+  $("#webcam").css("display", "none"); // ซ่อนกล้อง
+  $("#webcam-container").css("display", "none"); // ซ่อน container ของกล้อง
+  $("#closeCanera-image").css("display", "flex"); // แสดงรูปแทนกล้อง
+  $("#toggle-camera-btn-on").css("display", "flex"); // แสดงปุ่มสลับเปิดกล้อง
+  $("#toggle-camera-btn").css("display", "none"); // ซ่อนปุ่มสลับปิดกล้อง
+  $("#controls").show(); // แสดง control ของกล้อง
+  $("#image-preview").hide(); // ซ่อน preview รูปภาพ
+  console.log("ffffff");
+  
+  stopWebcam(); // หยุดการทำงานของกล้อง
+});
+
+// เปิดกล้องและซ่อนรูปแทน
+$("#toggle-camera-btn-on").click(function () {
+  $("#image-preview").empty();
+  $("#image-preview").show();
+  $("#closeCanera-image").css("display", "none"); // ซ่อนรูปที่แสดงแทนกล้อง
+  $("#webcam-container").show(); // แสดง container ของกล้อง
+  $("#webcam").css("display", "block"); // แสดงกล้อง
+  $("#toggle-camera-btn-on").css("display", "none"); // ซ่อนปุ่มเปิดกล้อง
+  $("#toggle-camera-btn").css("display", "flex"); // แสดงปุ่มปิดกล้อง
+  $("#capture-btn").show(); // แสดงปุ่มถ่ายภาพ
+  startWebcam(); // เริ่มการทำงานของกล้อง
+});
+
+    $("#capture-btn").click(function () {
+
+      if (!videoStream) {
+        msgPageObj.show(getStatusCode("Please turn on the camera."));
+    return;
+  }
+      $("#image-preview").show();
+      $("#image-input").hide();
+      var video = document.getElementById("webcam");
+      var canvas = document.createElement("canvas");
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+      canvas
+        .getContext("2d")
+        .drawImage(video, 0, 0, canvas.width, canvas.height);
+
+      canvas.toBlob(function (blob) {
+        imageFile = new File([blob], "photo.jpg", { type: "image/jpeg" });
+        var imageURL = URL.createObjectURL(imageFile);
+        $("#image-preview").css({
+  "height": "55vh"
+}).html(`
+  <h1 style="color: #000000;margin: 10px 0px; text-align: center;">Photo Captured!</h1>
+  <img src="${imageURL}" style="width: 80%; height: 100%; border: 10px solid #CDE2AA; border-radius: 15px; box-sizing: border-box; object-fit: cover;" alt="Preview">
+`);
+
+        $("#webcam-container").hide();
+        $("#head-controls").hide();
+        $("#mapSearch_header").hide();
+        $("#preview-footer").show();
+        $("#Preview_header").show();
+        
+        stopWebcam();
+      }, "image/jpeg");
+    });
+    $("#file-picker").click(function () {
+  $("#image-input").click(); // จำลองการคลิก input file เมื่อคลิกที่รูปภาพ
+});
+
+$("#image-input").change(function (event) {
+  var file = event.target.files[0];
+  if (file) {
+    imageFile = file;
+    var imageURL = URL.createObjectURL(file);
+
+    // ซ่อนกล้องและแสดงรูปที่เลือก
+    stopWebcam(); // หยุดกล้อง
+    $("#toggle-camera-btn-on").css("display", "flex"); // แสดงปุ่มสลับเปิดกล้อง
+    $("#toggle-camera-btn").css("display", "none"); // ซ่อนปุ่มสลับปิดกล้อง
+    $("#webcam-container").hide(); // ซ่อนกล้อง
+    $("#controls").show();
+    $("#image-preview").css({
+  "height": "55vh"
+}).html(`
+  <h1 style="color: #000000;margin: 10px 0px; text-align: center;">Photo Captured!</h1>
+  <img src="${imageURL}" style="width: 80%; height: 100%; border: 10px solid #CDE2AA; border-radius: 15px; box-sizing: border-box; object-fit: cover;" alt="Preview">
+`)
+
+      .show(); // แสดงรูปที่เลือก
+      $("#head-controls").hide();
+      $("#mapSearch_header").hide();
+      $("#preview-footer").show();
+      $("#Preview_header").show();
+
+  }
+});
+    $("#submit-btn").click(function () {
+      if (!imageFile) {
+        $("#error").text("Please capture or upload an image.").show();
+        return;
+      }
+      var formData = new FormData();
+      formData.append("image", imageFile);
+      formData.append("prompt", defaultPrompt);
+
+      $.ajax({
+        url: "http://localhost:3000/gemini",
+        type: "POST",
+        data: formData,
+        contentType: false,
+        processData: false,
+        success: function (response) {
+          try {
+            var responseText = response
+              .replace("```json", "")
+              .replace("```", "");
+            var parsedResponse = JSON.parse(responseText);
+            responseData = parsedResponse;
+            $("#error").hide();
+            $("#response-data").html(renderResponseData(parsedResponse));
+            $("#response").show();
+          } catch (jsonError) {
+            $("#error")
+              .text("ข้อผิดพลาดในการแปลง JSON: " + jsonError.message)
+              .show();
+          }
+        },
+        error: function (xhr, status, error) {
+          $("#error")
+            .text("ข้อผิดพลาดในการอัปโหลดรูปภาพ: " + error)
+            .show();
+        },
+      });
+    });
+
+    $("#reset-camera-btn").click(function () {
+  // ล้างข้อมูลการแสดงผลรูปภาพ
+  $("#image-preview").empty();
+
+  // รีเซ็ตค่าให้ทุกอย่างกลับสู่ค่าเริ่มต้น
+  imageFile = null;
+  
+  // แสดงกล้องเว็บแคมใหม่
+  $("#webcam-container").show();
+
+  // แสดงปุ่มที่จำเป็น
+  $("#controls").show();
+  $("#file-picker").show();
+  $("#image-input").val(""); // ล้างการเลือกไฟล์
+  
+  // ซ่อนองค์ประกอบที่เกี่ยวข้องกับการแสดงผลรูปภาพ
+  $("#preview-footer").hide();
+  $("#head-controls").show();
+
+  // รีเซ็ตปุ่ม toggle flash
+  flashOn = false; // ถ้ามีสถานะของ flash ให้รีเซ็ตด้วย
+  $("#toggle-flash-btn").show();
+  $("#toggle-flash-btn-on").hide();
+
+  // ซ่อนปุ่มและ UI ของ preview header
+  $("#Preview_header").hide();
+  $("#mapSearch_header").show(); // แสดง UI header หลัก
+  $("#image-preview").hide(); 
+  // เริ่มกล้องเว็บแคมใหม่
+  startWebcam();
+});
+;
+
+    function renderResponseData(data) {
+  // ตรวจสอบว่าข้อมูลเป็น array หรือไม่
+  if (Array.isArray(data.food_items)) {
+    return data.food_items
+      .map((item) => {
+        // ตรวจสอบว่า "Item Name" มีค่าหรือไม่
+        if (data.food_items.length === 0 || (data.food_items.length === 1 && data.food_items[0]['Item Name'] === 'This image does not contain food.') || 
+        !item['Item Name'] ) {
+          return "<p>Cannot process the nutritional information.</p>";
+           $("#share-btn").hide();
+           $("#save-btn").hide();
+        }
+
+        // ดึงค่าแต่ละตัวแปรมาแสดงเอง
+        return `
+          <div>
+            <h2>${item["Item Name"]}</h2>
+            <p><strong>Calories:</strong> ${item.Calories}</p>
+            <p><strong>Fat:</strong> ${item.Fat} g</p>
+            <p><strong>Carbohydrates:</strong> ${item.Carbohydrates} g</p>
+            <p><strong>Protein:</strong> ${item.Protein} g</p>
+            <p><strong>Sugars:</strong> ${item.Sugars} g</p>
+            <p><strong>Sodium:</strong> ${item.Sodium} mg</p>
+            <div>
+              <h3>Vitamins:</h3>
+              <p><strong>Vitamin A:</strong> ${item.Vitamins["Vitamin A"]}</p>
+              <p><strong>Vitamin C:</strong> ${item.Vitamins["Vitamin C"]}</p>
+              <p><strong>Vitamin D:</strong> ${item.Vitamins["Vitamin D"]}</p>
+              <p><strong>Vitamin E:</strong> ${item.Vitamins["Vitamin E"]}</p>
+            </div>
+          </div>
+        `;
+      })
+      .join(""); // แปลง array ของ HTML string ให้เป็น string เดียวกัน
+  } else {
+    return "<p>Cannot process the nutritional information.</p>";
+  }
+}
+
+
+    function startWebcam() {
+      navigator.mediaDevices
+        .getUserMedia({ video: { facingMode: "environment" } })
+        .then(function (stream) {
+          videoStream = stream;
+          var video = document.getElementById("webcam");
+          video.srcObject = stream;
+        })
+        .catch(function (err) {
+          console.error("Error accessing webcam: ", err);
+          $("#error").text("Unable to access the camera.").show();
+        });
+    }
+
+    function stopWebcam() {
+ 
+     if (videoStream) {
+       videoStream.getTracks().forEach((track) => track.stop());
+       videoStream = null;
+     }
+   }
+
+$("#toggle-flash-btn").click(function () {
+  
+  
+  if (!videoStream) {
+    alert("Please start the webcam first");
+    return;
+  }
+
+ var videoTrack = videoStream.getVideoTracks()[0];
+
+  if (videoTrack.getCapabilities().torch) {
+    // เปลี่ยนสถานะแฟลช
+    flashOn = !flashOn;
+    videoTrack
+      .applyConstraints({
+        advanced: [{ torch: flashOn }] // เปิด/ปิดแฟลช
+      })
+      .then(function () {
+
+      if (flashOn) {
+          $("#toggle-flash-btn").text("Turn Flash Off");
+          $('#toggle-flash-btn').attr("src", picRes['flashOp.png']); // ไอคอนเมื่อเปิดแฟลช
+        } else {
+          $("#toggle-flash-btn").text("Turn Flash On");
+          $('#toggle-flash-btn').attr("src", picRes['flash.png']); // ไอคอนเมื่อปิดแฟลช
+        }
+      })
+      .catch(function (error) {
+        console.error("Error applying constraints for flash: ", error);
+      });
+  } else {
+    alert("Flash is not supported on this device");
+  }
+});
+   
+
+    // Handle file selection ตั้งค่าเมื่อปิดกล้องอยู่แล้วใช้งานการเลือกรูป
+$("#image-input").change(function (event) {
+  const file = event.target.files[0];
+  if (file) {
+    stopWebcam(); // Stop the webcam preview
+    const reader = new FileReader();
+    reader.onload = function (e) {
+      // Show the selected image
+      $("#image-preview").attr("src", e.target.result).show();
+      $("#closeCanera-image").hide(); // Hide the camera preview
+    };
+    reader.readAsDataURL(file);
+  }
+});
+    $("#save-btn").click(function () {
+  if (!responseData) {
+    $("#error").text("No data to save.").show();
+    return;
+  }
+
+ 
+
+  var mealType = $("#meal-type").val();
+  if (!mealType) {
+    $("#error").text("Please select a meal type.").show();
+    return;
+  }
+
+  // Add meal type to the responseData
+  responseData.mealType = mealType;
+  
+  localStorage.setItem('responseData', JSON.stringify(responseData));
+  
+  // Example function call for saving data
+  logfoodObj.fetchFoodData(responseData);
+
+
+  var dataHTML = $("#response-data").html(); // ข้อมูล HTML ที่แสดงผล
+  console.log("Rendered Data (HTML):", dataHTML);
+  console.log("Original Data (Object):", responseData); // ข้อมูล parsedResponse ที่ได้รับม
+});
+
+
+
+
+    function loadList() {
+      myScroll = new IScroll("#homePage", { probeType: 1, mouseWheel: true });
+    }
+  }
+</script>

@@ -1,0 +1,19 @@
+/** @format */
+
+#regist_email,
+#regist_otp,
+#regist_inviteCode,
+#regist_deviceId,
+#regist_platform {
+  top: 16px;
+}
+
+@media screen and (max-width: 376px) {
+  #regist_email,
+  #regist_otp,
+  #regist_inviteCode,
+  #regist_deviceId,
+  #regist_platform {
+    top: 13px;
+  }
+}

@@ -1,0 +1,287 @@
+<div id="loginPage" class="flexCenter pageInit">
+
+    <div style="height: 20px;"></div>
+
+    <div style="width: 100%;" class="flexCenter loginImg">
+        <img src="./js/pic/logoLogin.png" />
+    </div>
+
+    <div style="height: 10px;"></div>
+
+    <div class="flexCenterColW100">
+
+        <div id="welcome_back" class="headerSpan">Welcome Back</div>
+        <div style="height: 15px;"></div>
+        <div id="sign_to_con">Sign to continue</div>
+        <div style="height: 15px;"></div>
+
+    </div>
+
+    <div class="flexCenterColW100">
+
+        <div style="height: 20px;"></div>
+
+        <div class="coverBoxInput">
+            <img id="login_phone">
+            <input id="mobileLogin" class="boxInput" type="text" placeholder="Phone" pattern="/^-?\d+\.?\d*$/"
+                onKeyPress="if(this.value.length==11) return false;" />
+        </div>
+        <div style="height: 15px;"></div>
+
+        <div class="coverBoxInput">
+            <img id="login_pass">
+            <input id="password" class="boxInput" type="password" placeholder="Password" />
+        </div>
+
+        <div style="height: 15px;"></div>
+
+        <div class="flexCenter" style="font-size: 10px;">
+            <input type="checkbox" id="checkBtnAgreementBtnLogin" class="checkbox">
+            <div style="width:5px"></div>
+            <span id="login_span1" style="color: #000;"></span>&nbsp;
+            <span id="login_span2" style="color:#457BFF;"></span>&nbsp;
+            <span id="login_span3" style="color: #000;"></span>&nbsp;
+            <span id="login_span4" style="color:#457BFF ;"></span>
+
+        </div>
+
+        <div style="height: 20px;"></div>
+
+    </div>
+
+
+    <div class="login_bottom flexEndColW100">
+        <div id="loginBtn" class="btnComm">Login</div>
+
+        <div style="height: 10px;"></div>
+
+        <div class="flexCenter spanUnderSubmit">
+            <div id="noAccount"></div>
+            <div style="color:#457BFF;" id="goRegisterBtn"></div>
+        </div>
+    </div>
+
+    <div style="height: 10px;"></div>
+
+
+
+</div>
+<script>
+
+    var loginObj = new login();
+    loginObj.init();
+
+    function login() {
+
+        var isAgree = false;
+
+        this.init = function () {
+
+            callApp('ask_deviceId');
+            askDeviceIdFun();
+
+            setAllUILang("login")
+
+            pageInit("loginPage");
+
+            $('#login_phone').attr("src", picRes['phone.png'])
+            $('#login_pass').attr("src", picRes['password.png'])
+
+
+            $("#backBtn").click(function () {
+                pageUnShow("loginPage");
+            });
+
+            $("#goRegisterBtn").click(function () {
+                pageShow("registerPage");
+            });
+
+            $("#login_span2").click(function () {
+                console.log('click');
+                pageShow("agreementPage");
+            });
+
+            $("#login_span4").click(function () {
+                console.log('click');
+                pageShow("policyPage");
+            });
+
+
+            $("#checkBtnAgreementBtnLogin").click(function () {
+                if (isAgree) {
+                    $("#checkBtnAgreementBtnLogin").css({ "background-color": "#ffffff" });
+                    $("#checkBtnAgreementBtnLogin").html('');
+                    isAgree = false;
+                } else {
+                    //√）和叉号（×） - CodePen
+                    $("#checkBtnAgreementBtnLogin").css({ "background-color": "#cccccc" });
+                    $("#checkBtnAgreementBtnLogin").html('√');
+                    isAgree = true;
+                }
+            });
+
+            $("#loginBtn").click(function () {
+
+                callApp('ask_deviceId');
+
+                // if (!isAgree) {
+                //     msgPageObj.show(NSLang('login.policy'))
+                //     return;
+                // }
+
+                var mobileID = $("#mobileLogin").val()
+                var passwordID = $("#password").val()
+                if (mobileID == "" && passwordID == "") {
+                    msgPageObj.show(NSLang('login.fill'))
+                }
+                if (mobileID == "" && passwordID != "") {
+                    msgObjEmail.show(NSLang('login.mail'))
+                }
+                if (mobileID != "" && passwordID == "") {
+                    msgPageObj.show(NSLang('login.password'))
+                }
+
+                if (mobileID != "" && passwordID != "") {
+                    loaderObj.show();
+                    setTimeout(function () {
+                        loginFun();
+                    }, 1000);
+                }
+
+            });
+
+            function loginFun() {
+
+                var mData = {
+                    "name": $("#mobileLogin").val(),
+                    "password": $("#password").val(),
+                }
+
+                if (deviceId) {
+                    mData = {
+                        "name": $("#mobileLogin").val(),
+                        "password": $("#password").val(),
+
+                    }
+                }
+
+
+                $.ajax({
+                    type: "post",
+                    url: API_SERVER + "/v1/auth/login",
+                    data: JSON.stringify(mData),
+                    contentType: "application/json",
+                    dataType: "json",
+                    async: true,
+                    timeout: 100000,
+                    beforeSend: function (xmlhttprequest) {
+                    },
+                    success: function (data) {
+                        loaderObj.unShow();
+
+
+                        if (data.code == 0) {
+
+                            // location.reload();
+                            cleanInput();
+                            var tokenObj = data.result;
+                            localStorage.setItem('token', JSON.stringify(tokenObj));
+                            mainObj.checkIsLogin();
+                        }
+                        else {
+                            msgPageObj.show(getStatusCode(data.code))
+                        }
+                    },
+                    error: function (xmlhttprequest, error) {
+                        loaderObj.unShow();
+                        msgPageObj.show(NSLang('sys.serverError'))
+                    },
+                    complete: function () {
+                    }
+                });
+
+                function cleanInput() {
+                    $("#mobileLogin").val('');
+                    $("#password").val('');
+                }
+            }
+
+        }
+
+
+        this.checkLoginStatusWithRefreshToken = function () {
+
+            if (token == null) {
+                return;
+            }
+            var mData = { "token": token.refresh };
+
+            $.ajax({
+                type: "post",
+                url: API_SERVER + "/v1/auth/refresh",
+                data: JSON.stringify(mData),
+                contentType: "application/json",
+                dataType: "json",
+                async: true,
+                timeout: 100000,
+                beforeSend: function (xmlhttprequest) {
+                },
+                success: function (data) {
+
+                    if (data.code == 0) {
+                        console.log('===>refresh success');
+                        var tokenObj = data.result;
+                        localStorage.setItem('token', JSON.stringify(tokenObj));
+                        var tokenLocal = localStorage.getItem('token');
+                        if (tokenLocal != null) {
+                            token = JSON.parse(tokenLocal);
+                        }
+
+                        pageUnShow('loginPage');
+                    } else {
+                        console.log('===>refresh fail');
+                    }
+                },
+                error: function (xmlhttprequest, error) {
+                    console.log(error);
+                },
+                complete: function () {
+                }
+            });
+
+
+        }
+
+
+        //极光推送可能拿不到设备id，多次请求确保可以拿到  อาจไม่สามารถรับรหัสอุปกรณ์ได้ โปรดส่งคำขอหลายรายการเพื่อให้แน่ใจว่าสามารถรับได้
+        function askDeviceIdFun() {
+            if (checkIsAndroid()) {
+                setTimeout(function () {
+                    callApp('ask_deviceId');
+                }, 1000);
+                setTimeout(function () {
+                    callApp('ask_deviceId');
+                }, 3000);
+                setTimeout(function () {
+                    callApp('ask_deviceId');
+                }, 5000);
+                setTimeout(function () {
+                    callApp('ask_deviceId');
+                }, 7000);
+                setTimeout(function () {
+                    callApp('ask_deviceId');
+                }, 9000);
+                setTimeout(function () {
+                    callApp('ask_deviceId');
+                }, 11000);
+                setTimeout(function () {
+                    callApp('ask_deviceId');
+                }, 13000);
+                setTimeout(function () {
+                    callApp('ask_deviceId');
+                }, 15000);
+            }
+        }
+    }
+
+</script>

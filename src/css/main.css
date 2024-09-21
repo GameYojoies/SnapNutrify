@@ -1,0 +1,29 @@
+.positionZero {
+    position: 0px;
+    top: 0px;
+    left: 0px;
+}
+
+.bgSizeCover {
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.coverMenu {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-top: 1px solid #b5b5b5;
+}
+
+.menuDiv {
+    width: 25%;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.menuSpan {
+    font-size: 10px; color: #97979B;
+}

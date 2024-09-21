@@ -1,0 +1,228 @@
+<div id="registerPage" class="flexCenter pageInit">
+
+    <div style="height: 20px;"></div>
+
+    <div class="flexCenter">
+        <img class="regisImg" src="./js/pic/register.png ">
+    </div>
+
+    <div style="height: 20px;"></div>
+
+    <div style="width: 100%; height: auto;">
+        <div class="coverBoxInput">
+            <img id="regist_name">
+            <input id="name" class="boxInput" type="text" placeholder="Name">
+        </div>
+
+        <div style="height: 15px;"></div>
+
+        <div class="coverBoxInput">
+            <img id="regist_mobile">
+            <input id="mobile" class="boxInput" type="number" placeholder="Phone" pattern="/^-?\d+\.?\d*$/"
+                onKeyPress="if(this.value.length==11) return false;" />
+        </div>
+        <div style="height: 15px;"></div>
+
+        <div class="coverBoxInput">
+            <img id="regist_pass">
+            <input id="r_password" class="boxInput" type="password" placeholder="Password" />
+        </div>
+
+        <div style="height: 15px;"></div>
+
+        <div class="coverBoxInput">
+            <img id="regist_pass2">
+            <input id="r_password_again" class="boxInput" type="password" placeholder="Confrim Password" />
+
+        </div>
+        <div class="flexEndRow80">
+            <img id="eyeiconclose" alt="eyeicon">
+            <label id="showPassword"></label>
+        </div>
+
+        <div style="height: 15px;"></div>
+
+    </div>
+
+    <div style="height: 10px;"></div>
+
+
+    <div class="regist_bottom flexEndColW100">
+
+        <div id="registerBtn" class="btnComm">Create</div>
+
+        <div style="height: 10px;"></div>
+
+        <div class="flexCenter spanUnderSubmit">
+            <div id="alreadyAcc"></div>
+            <div style="color:#457BFF;" id="loginNow2"></div>
+        </div>
+    </div>
+
+    <div style="height: 10px;"></div>
+
+
+
+</div>
+
+
+<script>
+
+    var registerObj = new register();
+    registerObj.init();
+    var myScroll
+
+    function register() {
+        this.init = function () {
+
+
+            pageInit("registerPage");
+            setAllUILang("register");
+
+
+            $('#regist_name').attr('src', picRes['account.png'])
+            $('#regist_mobile').attr('src', picRes['phone.png'])
+            $('#regist_pass').attr('src', picRes['password.png'])
+            $('#regist_pass2').attr('src', picRes['password.png'])
+
+            $("#registerPage").css({ "width": w, "height": h });
+
+            $("#loginNow2").click(function () {
+                pageShow("loginPage");
+                pageUnShow("registerPage");
+            })
+
+            $("#r_password").keypress(function (event) {
+                var ew = event.which;
+                if (32 <= ew && ew <= 122)
+                    return true;
+                return false;
+            });
+            $("#r_password_again").keypress(function (event) {
+                var ew = event.which;
+                if (32 <= ew && ew <= 122)
+                    return true;
+                return false;
+            });
+
+            // fanction showPassword
+            $(`#eyeiconclose`).click(function () {
+                var x = document.getElementById("r_password");
+                var y = document.getElementById("r_password_again");
+                var eyeIcon = document.getElementById("eyeiconclose");
+
+                if (x.type === "password") {
+                    x.type = "text";
+                    y.type = "text";
+                    eyeIcon.src = picRes['eyeicon.png'];
+                } else {
+                    x.type = "password";
+                    y.type = "password";
+                    eyeIcon.src = picRes['eyeiconclose.png'];
+                }
+            })
+            $('#eyeicon').attr('src', picRes['eyeicon.png'])
+            $('#eyeiconclose').attr('src', picRes['eyeiconclose.png'])
+
+
+            $("#registerBtn").click(function () {
+                var name = $("#name").val();
+                var mobile = $("#mobile").val();
+                var p = $("#r_password").val();
+                var p_again = $("#r_password_again").val();
+                // var inviteCode = $("#inviteCode").val();
+
+                if ((mobile == '') || (p == '') || (p_again == '') || (name == '')) {
+                    msgPageObj.show(NSLang('register.fill'))
+                }
+
+                if ((mobile.length != 11) && (p != '') && (p_again != '') && (name != '')) {
+                    msgPageObj.show(NSLang('register.digit'))
+                }
+                if ((p.length < 6) && (p.length > 30) && (p_again.length < 6) && (p_again.length > 30) && (mobile != '') && (name != '')) {
+                    msgPageObj.show(NSLang('register.pass'))
+                }
+
+                if ((p != p_again) && (mobile != '') && (p != '') && (p_again != '') && (name != '')) {
+                    msgPageObj.show(NSLang('register.repass'))
+                }
+                if ((mobile != '') && (p != '') && (p_again.length >= 6) && (p == p_again) && (p_again.length <= 30) && (p.length >= 6) && (p.length <= 30) && (mobile.length = 11)) {
+                    setTimeout(function () {
+                        loaderObj.show();
+                        registerFun();
+                    }, 0);
+                }
+            });
+            let rotated = true;
+
+            $("#iconbox").click(function () {
+                $("#boxinvite").toggle();
+                if (rotated) {
+                    $(this).css("transform", "rotate(180deg)");
+                } else {
+                    $(this).css("transform", "rotate(0deg)");
+                }
+
+                rotated = !rotated;
+            })
+            function registerFun() {
+
+                loaderObj.show();
+                var mData = {
+                    "mobile": $("#mobile").val(),
+                    "name": $("#name").val(),
+                    "password": $("#r_password").val(),
+                    "inviteCode": $("#inviteCode").val(),
+                }
+
+                $.ajax({
+                    type: "post",
+                    url: API_SERVER + "/v1/auth/signUp",
+                    data: JSON.stringify(mData),
+                    dataType: "json",
+                    async: true,
+                    timeout: 100000,
+                    beforeSend: function (xmlhttprequest) {
+                    },
+                    success: function (data) {
+
+                        loaderObj.unShow();
+                        if (data.code == 0) {
+
+                            cleanInput();
+                            msgPageObj.show(NSLang('register.success'))
+                            setTimeout(function () {
+                                pageUnShow('registerPage');
+                            }, 1000)
+                        }
+                        else {
+
+                            msgPageObj.show(getStatusCode(data.code))
+                        }
+                    },
+                    error: function (xmlhttprequest, error) {
+
+                        loaderObj.unShow();
+                        msgPageObj.show(NSLang('sys.serverError'))
+                        cleanInput();
+
+                    },
+                    complete: function () {
+                    }
+                });
+
+                function cleanInput() {
+                    $("#name").val('');
+                    $("#mobile").val('');
+                    $("#r_password").val('');
+                    $("#r_password_again").val('');
+                    $("#inviteCode").val('');
+                }
+
+
+            }
+
+        }
+    }
+
+</script>

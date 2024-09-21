@@ -1,0 +1,216 @@
+<script>
+    var langCode = 'en'
+
+    var NSLangArr = {
+
+        // get start
+        "getStart.start": { "en": "Get start", "zh": "开始使用", "th": "เริ่มต้นเลย", },
+
+        // login
+
+        "login.welcome_back": { zh: "欢迎回来", en: "Welcome back", th: "ยินดีต้อนรับกลับมา" },
+        "login.signup": { zh: "签名以继续", en: "Sign to continue", th: "ลงชื่อเพื่อดำเนินการต่อ" },
+        "login.login": { zh: "登录", en: "Login", th: "เข้าสู่ระบบ" },
+        "login.mobileLogin": { zh: "电话号码", en: "Phone Number", th: "หมายเลขโทรศัพท์" },
+        "login.password1": { zh: "密码", en: "Password", th: "รหัสผ่าน" },
+        "login.login_span1": { zh: "我已阅读并同意", en: "I have read and agree to the ", th: "ฉันได้อ่านและยอมรับ " },
+        "login.login_span2": { zh: "用户协议", en: "User Agreement", th: "ข้อตกลงผู้ใช้" },
+        "login.login_span3": { zh: "及", en: "and", th: "และ" },
+        "login.login_span4": { zh: "隐私条款", en: "Privacy Policy", th: "นโยบายความเป็นส่วนตัว" },
+        "login.noAcc": { zh: "没有账号 ?", en: "Don't have an account?", th: "ยังไม่มีบัญชีหรือ?" },
+        "login.goRegister": { zh: "马上注册", en: "Create a new account", th: "ลงทะเบียนเดี๋ยวนี้" },
+        "login.policy": { "en": "Please confirm the privacy policy", "zh": "请确认隐私政策", "th": "กรุณายืนยันนโยบายความเป็นส่วนตัว", },
+        "login.password": { "en": "Please enter the login password", "zh": "请输入登陆密码", "th": "กรุณากรอกรหัสผ่านเข้าสู่ระบบ", },
+
+        // register
+        "register.name": { zh: "姓名", en: "Name", th: "ชื่อ" },
+        "register.password1": { zh: "重设密码", en: "Re-password", th: "รหัสผ่านอีกครั้ง" },
+        "register.btn": { zh: "创造", en: "Create", th: "สร้าง" },
+        "register.acc": { zh: "我已经有帐户", en: "I already have an account", th: "ฉันมีบัญชี" },
+        "register.login": { zh: "登录", en: "Log in", th: "เข้าสู่ระบบ" },
+        "register.fill": { "en": "Enter complete information", "zh": "输入完整信息", "th": "กรอกข้อมูลให้ครบถ้วน", },
+        "register.digit": { "en": "Please enter your 11 digit phone number.", "zh": "请输入您的 11 位电话号码。", "th": "กรุณากรอกหมายเลขโทรศัพท์ 11 หลัก", },
+        "register.pass": { "en": "Please enter a 6 to 30 digit password and confirmation password", "zh": "请输入6至30位数字的密码和确认密码", "th": "กรุณากรอกรหัสผ่าน 6 ถึง 30 หลักและรหัสผ่านยืนยัน", },
+        "register.repass": { "en": "The two password inputs are inconsistent", "zh": "两次密码输入不一致", "th": "การป้อนรหัสผ่านทั้งสองไม่สอดคล้องกัน", },
+        "register.success": { "en": "You have successfully registered an account", "zh": "您已成功注册帐号", "th": "คุณได้ลงทะเบียนบัญชีเรียบร้อยแล้ว", },
+
+        // main
+        "main.home": { zh: "主页", en: "Home", th: "หน้าหลัก" },
+        "main.trade": { zh: "贸易", en: "Trade", th: "ซื้อขาย" },
+        "main.wallet": { zh: "钱包", en: "Wallet", th: "กระเป๋า" },
+        "main.setting": { zh: "主页", en: "Setting", th: "ตั้งค่า" },
+        
+
+        // system app
+        "sys.comfirm": { "en": "Confirm", "zh": "确认", "th": "ตกลง", },
+        "sys.cancel": { "en": "Cancel", "zh": "取消", "th": "ยกเลิก", },
+        "sys.serverError": { "en": "Server has a problem please try again", "zh": "服务器有问题请重试", "th": "เซิร์ฟเวอร์มีปัญหา โปรดลองอีกครั้ง", },
+    
+
+
+
+    }
+
+    function setAllPageLang() {
+        setAllUILang('getstart')
+        setAllUILang("login")
+        setAllUILang("register")
+        setAllUILang("main")
+
+    }
+
+    function setAllUILang(page) {
+        //
+        $("#msgBtnOK").html(NSLang("sys.comfirm"))
+        $("#msgBtnCancel").html(NSLang("sys.cancel"))
+
+
+        switch (page) {
+
+            case "getstart": {
+                $("#getStart").html(NSLang("getStart.start"))
+              
+
+            } break
+            case "login": {
+                
+                $("#welcome_back").html(NSLang("login.welcome_back"))
+                $("#sign_to_con").html(NSLang("login.signup"))
+                $("#mobileLogin").attr('placeholder', NSLang('login.mobileLogin'));
+                $("#password").attr('placeholder', NSLang('login.password1'));
+                $("#login_span1").html(NSLang("login.login_span1"))
+                $("#login_span2").html(NSLang("login.login_span2"))
+                $("#login_span3").html(NSLang("login.login_span3"))
+                $("#login_span4").html(NSLang("login.login_span4"))
+                $("#loginBtn").html(NSLang("login.login"))
+                $("#noAccount").html(NSLang("login.noAcc"))
+                $("#goRegisterBtn").html(NSLang("login.goRegister"))
+                
+                
+            } break
+
+            case "register": {
+                $("#name").attr('placeholder', NSLang('register.name'));
+                $("#mobile").attr('placeholder', NSLang('login.mobileLogin'));
+                $("#r_password").attr('placeholder', NSLang('login.password1'));
+                $("#r_password_again").attr('placeholder', NSLang('register.password1'));
+                $("#registerBtn").html(NSLang("register.btn"))
+                $("#alreadyAcc").html(NSLang("register.acc"))
+                $("#loginNow2").html(NSLang("register.login"))
+
+            } break
+            case "main": {
+                $("#menuHomeSpan").html(NSLang("main.home"))
+                $("#menuTradeSpan").html(NSLang("main.trade"))
+                $("#menuwalletSpan").html(NSLang("main.wallet"))
+                $("#menuSettingSpan").html(NSLang("main.setting"))
+                // $("#homeHeaderBody").html(NSLang("main.home"))
+                $("#tradeHeaderBody").html(NSLang("main.trade"))
+                $("#walletHeaderBody").html(NSLang("main.wallet"))
+                $("#settingHeaderBody").html(NSLang("main.setting"))
+
+            } break
+
+
+           
+
+            default: {
+
+            } break
+
+        }
+
+    }
+    function NSLang(inStr) {
+        try {
+            var v = NSLangArr[inStr][langCode];
+            if (v != null) {
+                return v;
+            } else {
+                return inStr;
+            }
+        } catch (e) {
+            return inStr;
+        }
+
+    }
+
+
+</script>
+
+<script>
+    var statusCodesArr = {
+
+        "0": { "en": "Success", "zh": "请求成功", "th": "สำเร็จ" },
+        "2011": { "en": "Accepted", "zh": "请求已受理", "th": "ยอมรับแล้ว" },
+        "4001": { "en": "Token expire", "zh": "账户已过期", "th": "Token หมดอายุ" },
+        "4002": { "en": "Refresh token expire", "zh": "再次刷新账户", "th": "Refresh Token หมดอายุ" },
+        "4010": { "en": "Mobile or password not correct", "zh": "电话号码或密码错误", "th": "หมายเลขโทรศัพท์หรือรหัสผ่านไม่ถูกต้อง" },
+        "4011": { "en": "Invalid password", "zh": "密码错误", "th": "รหัสผ่านไม่ถูกต้อง" },
+        "4014": { "en": "Invalid account name", "zh": "无效的用户名", "th": "ชื่อบัญชีไม่ถูกต้อง" },
+        "4021": { "en": "Password not matches", "zh": "密码与当前密码不匹配", "th": "รหัสผ่านไม่ตรงกับรหัสผ่านปัจจุบัน" },
+        "4022": { "en": "Existed account name", "zh": "用户名已经存在", "th": "มีชื่อบัญชีอยู่แล้ว" },
+        "4023": { "en": "Existed mobile", "zh": "手机号已经存在", "th": "มีหมายเลขโทรศัพท์มือถือแล้ว" },
+        "4024": { "en": "Sms code sample", "zh": "短信验证码不一致", "th": "รหัส SMS ไม่ตรงกัน" },
+        "4025": { "en": "Destroy account", "zh": "已经注销的帐户", "th": "บัญชีถูกยกเลิกแล้ว" },
+        "4029": { "en": "Invalid mobile", "zh": "无效的手机号", "th": "หมายเลขโทรศัพท์ไม่ถูกต้อง" },
+        "4030": { "en": "Invalid user id", "zh": "无效用户ID", "th": "รหัสผู้ใช้ไม่ถูกต้อง" },
+        "4031": { "en": "Balance not enough", "zh": "余额不足", "th": "ยอดเงินไม่เพียงพอ" },
+        "4032": { "en": "Invalid wallet address", "zh": "无效钱包地址", "th": "ที่อยู่กระเป๋าเงินไม่ถูกต้อง" },
+        "4033": { "en": "Invalid amount", "zh": "无效金额", "th": "จำนวนไม่ถูกต้อง" },
+        "4034": { "en": "Withdraw fail", "zh": "提现失败", "th": "การถอนล้มเหลว" },
+        "4035": { "en": "Invalid invite code", "zh": "无效邀请码", "th": "รหัสเชิญไม่ถูกต้อง" },
+        "4036": { "en": "Invalid financial organization bank name", "zh": "无效金融机构银行名称", "th": "ชื่อธนาคารไม่ถูกต้อง" },
+        "4037": { "en": "Invalid financial organization card number", "zh": "无效金融机构卡号", "th": "หมายเลขบัตรไม่ถูกต้อง" },
+        "4038": { "en": "Invalid financial organization card name", "zh": "无效金融机构卡名", "th": "ชื่อบัตรไม่ถูกต้อง" },
+        "4039": { "en": "Existed financial organization card number", "zh": "已存在金融机构卡号", "th": "มีหมายเลขธนาคารอยู่แล้ว" },
+        "4040": { "en": "Invalid name", "zh": "无效姓名", "th": "ชื่อไม่ถูกต้อง" },
+        "4041": { "en": "Invalid identity passport code", "zh": "无效身份证号码", "th": "รหัสบัตรประจำตัวไม่ถูกต้อง" },
+        "4042": { "en": "Invalid step", "zh": "无效步骤", "th": "ขั้นตอนไม่ถูกต้อง" },
+        "4043": { "en": "Existed checked in", "zh": "已签到", "th": "ได้ทำการเช็คอินแล้ว" },
+        "4044": { "en": "Invalid product id", "zh": "无效产品ID", "th": "รหัสผลิตภัณฑ์ไม่ถูกต้อง" },
+        "4045": { "en": "Not allow repeat purchase", "zh": "不允许重复购买", "th": "ไม่อนุญาตให้ซื้อซ้ำ" },
+        "4046": { "en": "Purchase method is invalid", "zh": "购买方式无效", "th": "วิธีการซื้อไม่ถูกต้อง" },
+        "4047": { "en": "Product state is invalid", "zh": "产品状态无效", "th": "สถานะผลิตภัณฑ์ไม่ถูกต้อง" },
+        "4048": { "en": "Purchase method is not match", "zh": "购买方式不匹配", "th": "วิธีการซื้อไม่ตรงกัน" },
+        "4049": { "en": "Product is off", "zh": "产品已下架", "th": "ผลิตภัณฑ์ถูกปิด" },
+        "4050": { "en": "Account disabled", "zh": "用户已被禁用", "th": "บัญชีถูกปิดการใช้งาน" },
+        "4051": { "en": "Invalid announcement id", "zh": "无效公告ID", "th": "รหัสประกาศไม่ถูกต้อง" },
+        "4052": { "en": "Invalid wallet type", "zh": "无效钱包类型", "th": "ประเภทกระเป๋าเงินไม่ถูกต้อง" },
+        "4053": { "en": "Invalid transaction type", "zh": "无效交易类型", "th": "ประเภทการธุรกรรมไม่ถูกต้อง" },
+        "4054": { "en": "Invalid 2fa", "zh": "无效两步验证", "th": "การตรวจสอบความปลอดภัย 2 ขั้นตอนไม่ถูกต้อง" },
+        "4055": { "en": "Withdraw not enabled", "zh": "提现未启用", "th": "การถอนเงินไม่ได้เปิดใช้งาน" },
+        "4056": { "en": "Invalid notifications", "zh": "无效通知", "th": "การแจ้งเตือนไม่ถูกต้อง" },
+        "4057": { "en": "Identity not verified", "zh": "身份未验证", "th": "ไม่ได้รับการตรวจสอบตัวตน" },
+        "4058": { "en": "Not found bank name", "zh": "未找到银行名称", "th": "ไม่พบชื่อธนาคาร" },
+        "4059": { "en": "Not found bank info apply type", "zh": "未找到银行信息申请类型", "th": "ไม่พบประเภทการสมัครข้อมูลธนาคาร" },
+        "4062": { "en": "Not enough credit", "zh": "没有足够的额度", "th": "เครดิตไม่พอ" },
+        "4063": { "en": "Activity points can only be used once", "zh": "活动积分只能使用", "th": "คะแนนกิจกรรมสามารถใช้ได้หนึ่งครั้งเท่านั้น" },
+        "4064": { "en": "Not enough points", "zh": "积分不够", "th": "คะแนนไม่เพียงพอ" },
+        "4065": { "en": "Insufficient Debt Settlement Fund Balance", "zh": "债务清算基金余额不足", "th": "ยอดกองทุนชำระหนี้ไม่เพียงพอ" },
+        "4066": { "en": "You are not active enough, please try your best", "zh": "您的活跃度不够，请努力哦", "th": "คุณยังใช้งานไม่มากพอ โปรดพยายามให้ดีที่สุด" },
+        "4067": { "en": "Not support debt settlement fund", "zh": "不支持债务清偿基金", "th": "ไม่สนับสนุนกองทุนการชำระหนี้" },
+        "4068": { "en": "Invalid remark", "zh": "无效评论", "th": "หมายเหตุที่ไม่ถูกต้อง" },
+        "4069": { "en": "Invalid financial organization wallet address", "zh": "无效的金融组织钱包地址", "th": "ที่อยู่กระเป๋าสตางค์ทางการเงินไม่ถูกต้อง" },
+        "4070": { "en": "Existed financial organization wallet address", "zh": "现有金融机构钱包地址", "th": "ที่อยู่กระเป๋าเงินขององค์กรทางการเงินที่มีอยู่" },
+        "4071": { "en": "Invalid financial organization wallet address", "zh": "无效的金融组织钱包地址", "th": "ที่อยู่กระเป๋าสตางค์ทางการเงินไม่ถูกต้อง" },
+        "4072": { "en": "The purchase limit of this product has been reached today, please come back to purchase again tomorrow.", "zh": "今日该产品购买限额已满，请明天再来购买哦", "th": "หมายเหตุที่วันนี้ถึงขีดจำกัดการซื้อผลิตภัณฑ์นี้แล้ว โปรดกลับมาซื้ออีกครั้งในวันพรุ่งนี้ไม่ถูกต้อง" },
+        "9999": { "en": "Unknown mistake", "zh": "未知错误", "th": "ไม่ทราบข้อผิดพลาด" }
+
+    }
+
+    function getStatusCode(code) {
+        var thisCode = code
+        try {
+            var v = statusCodesArr[thisCode][langCode];
+            if (v != null) {
+                return v;
+            } else {
+                return thisCode;
+            }
+        } catch (e) {
+            return thisCode;
+        }
+
+    }
+</script>

@@ -1,0 +1,1061 @@
+<style>
+  swiper-container {
+    width: 100%;
+    height: 100%;
+  }
+
+  swiper-slide {
+    text-align: center;
+    font-size: 18px;
+    background: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .future-day {
+    color: gray;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  #progressCircle {
+    background-image: conic-gradient(#4caf50 var(--progress, 0deg),
+        #f5f5dc 0deg);
+  }
+
+  .date-picker-header {
+    text-align: center;
+    margin-bottom: 10px;
+    font-size: 18px;
+    font-weight: bold;
+  }
+
+  .date-picker-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0 auto;
+    width: 90%;
+    position: relative;
+  }
+
+  .date-picker {
+    display: flex;
+    justify-content: center;
+    width: 80%;
+    margin: 0 auto;
+    flex-direction: column;
+  }
+
+  .date {
+    margin: 5px;
+    /* background-color: lightblue; */
+    border-radius: 5px;
+    cursor: pointer;
+    user-select: none;
+    width: 50px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* color: #fff; */
+  }
+
+  .current-day {
+    background: #CDE2AA;
+    color: #5F8458;
+    /* Highlight color */
+    border-radius: 50%;
+    font-weight: bold;
+  }
+
+  .date.selected {
+    color: #42563D;
+  }
+
+  .scroll-btn {
+    border: none;
+    cursor: pointer;
+    width: 30px;
+    display: none;
+
+  }
+
+  .scroll-btn:active {
+    /* background-color: #bbb; */
+    border-radius: 100%;
+    width: 30px;
+
+  }
+
+  .calendarMore {
+    padding: 1em;
+    border-radius: 10px;
+    place-items: center;
+    grid-template-columns: repeat(7, 1fr);
+    grid-auto-rows: max-content;
+    grid-auto-flow: row;
+    color: black;
+    background-color: hsl(0, 0%, 100%);
+    position: absolute;
+    display: none;
+    flex-direction: column;
+    gap: 2px;
+    grid-auto-rows: minmax(40px, auto);
+  }
+
+  .cell {
+    width: 100%;
+    padding: 0.4em 0.8em;
+    text-align: center;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    text-align: center;
+    /* height: 40px; */
+  }
+
+  .cell:hover,
+  .cell:focus {
+    color: #5F8458;
+    background-color: #CDE2AA;
+    border-radius: 16px;
+  }
+
+  .cell:empty {
+    width: 0;
+    padding: 0;
+  }
+
+
+
+
+
+  .date-text {
+    padding: 1em 0.8em;
+    grid-column: 1 / 5;
+    justify-self: start;
+    display: flex;
+    align-items: center;
+
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+
+  .button {
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+
+
+  .dates-container {
+    display: flex;
+    color: #fff;
+  }
+
+  .right {
+    display: none;
+    /* Add more styles as needed */
+  }
+
+  .left {
+    display: block;
+    /* Add more styles as needed */
+  }
+
+  .calendar-header {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    margin-bottom: 10px;
+    width: 90%;
+
+    /* Space between header and calendar */
+  }
+
+  .button {
+    cursor: pointer;
+    text-align: center;
+  }
+
+  .date-selectors {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+  }
+
+  .calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    /* Ensure 7 columns for days */
+    gap: 2px;
+    /* Space between cells */
+  }
+
+  .day-names {
+    display: contents;
+    /* Ensure day names align in the grid without extra wrapping */
+  }
+
+  .days {
+    display: contents;
+    /* Ensure days align in the grid without extra wrapping */
+  }
+
+  .day-labels {
+    display: flex;
+    width: 100%;
+    justify-content: space-around;
+    color: #42563D;
+  }
+
+  .cell--unselectable {
+    text-align: center;
+    line-height: 40px;
+    color: hsl(231, 20%, 50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+  }
+
+  .custom-dropdown {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+  }
+
+  .custom-dropdown .selected {
+    background-color: #fff;
+    border-radius: 4px;
+    width: 100px;
+  }
+
+  /* .selected {
+    width: 100px;
+  } */
+  .custom-dropdown .dropdown-options {
+    display: none;
+    position: absolute;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    /* max-height: 200px; */
+    overflow-y: auto;
+    z-index: 1000;
+    /* width: 100%; */
+  }
+
+
+  .custom-dropdown .dropdown-option {
+    padding: 8px 12px;
+    cursor: pointer;
+  }
+
+  .custom-dropdown .dropdown-option:hover,
+  .dropdown-option.selected-option {
+    background-color: #f0f0f0;
+  }
+
+  .custom-dropdown .dropdown-option.selected-option {
+    font-weight: bold;
+  }
+
+  #dropdown-options_M {
+    display: none;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 300px;
+    left: -45%;
+    margin-top: 10px;
+  }
+
+  #dropdown-options_Y {
+    display: none;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 300px;
+    left: -155%;
+    margin-top: 10px;
+  }
+
+  .dropdown-option {
+    width: 33.33%;
+    /* แต่ละ div กว้าง 1 ใน 3 ของพื้นที่ทั้งหมด */
+    box-sizing: border-box;
+    text-align: center;
+    padding: 10px;
+    margin: 5px 0;
+    cursor: pointer;
+  }
+
+  .selected-option {
+    background-color: #d3d3d3;
+    /* สีที่เลือก */
+  }
+
+
+  .swiper-pagination {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+
+  }
+</style>
+
+<div class="menuHeader" id="logfoodHeader" style="
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+    font-weight: 700;
+    background: transparent;
+  ">
+  <div id="logfoodHeaderBody" style="width: 90%; color: #fff;">Hello</div>
+  <img id="selectcalender" style="position: absolute;right: 10px;width: 50px;"> </img>
+  <div style="position: absolute;z-index: -1;  height: 960px; width: 100%; background: rgb(205,226,170);
+background: linear-gradient(180deg, rgba(205,226,170,1) 0%, rgba(154,183,132,1) 50%, rgba(90,127,84,1) 100%);
+border-bottom-left-radius: 200px 55px;
+border-bottom-right-radius: 200px 55px;">
+
+  </div>
+  <div class="menuPage bg-my" id="logfoodPage" style="position: absolute; overflow: hidden; background: transparent">
+    <div style="height: auto; display: flex; flex-direction: column; gap: 10px" class="flexTop_c">
+
+      <!---///////////////////////////////////////////////////////////////////////-->
+      <div class="date-picker-header">
+        <span id="monthYear" style="color: #fff;"></span>
+      </div>
+      <div class="date-picker-container">
+        <button class="scroll-btn left" style="position: absolute;bottom: 10px; left: 5px ;">&lt;</button>
+        <div class="date-picker" id="datePicker"></div>
+        <button class="scroll-btn right"
+          style="position: absolute;bottom: 10px; right: 5px; display: none;">&gt;</button>
+      </div>
+      <div>
+        <!-- <p><span id="currentDate"></span></p> -->
+      </div>
+      <div>
+        <p>
+        <div id="resetdate">ResetDate</div>
+        </p>
+      </div>
+
+      <!---///////////////////////////////////////////////////////////////////////-->
+      <div style=" width: 95%; height: 210px ;  border-radius: 50%; z-index: -1;
+">
+
+        <swiper-container class="mySwipe" pagination="true" id="swiper_pagination">
+          <swiper-slide style="border-radius: 35px;">
+            <div id="progressContainer" style="
+                width: 100%;
+                height: 100%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+              ">
+              <div id="progressCircle" style="
+                  width: 150px;
+                  height: 150px;
+                  border-radius: 50%;
+                  background-color: #f5f5dc;
+                  position: relative;
+                ">
+                <div id="progressInner" style="
+                    width: 90%;
+                    height: 90%;
+                    background-color: white;
+                    border-radius: 50%;
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    font-size: 24px;
+                    font-weight: bold;
+                    color: #333;
+                  ">
+                  <span id="calorieValue">0</span> kcal
+                </div>
+              </div>
+            </div>
+          </swiper-slide>
+          <swiper-slide style="border-radius: 35px;">
+            <div id="calorieBox" style="
+                width: 100%;
+                height: 100%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                font-size: 24px;
+                font-weight: bold;
+                color: #333;
+                
+              ">
+              <span id="calorieValue">0</span> kcal
+            </div>
+          </swiper-slide>
+        </swiper-container>
+      </div>
+      <div id="calendarMore" class="calendarMore"></div>
+      <div style="margin-top: 50px; width: 95%; margin:  80px 0px auto;">
+        <div style=" display: flex;justify-content: space-between;width: 95%;margin: 0 auto;"> <span>Meals today</span> <span>All</span></div>
+        <div style="background-color: antiquewhite; width: 100%; height: 20%">
+          <div id="foodLogBreakfast" style="padding: 10px; overflow-y: auto; height: 100%">
+            <h3>Food Log (เช้า)</h3>
+            <ul id="foodListBreakfast" style="list-style-type: none; padding-left: 0; font-size: 16px">
+            </ul>
+          </div>
+        </div>
+
+        <div style="background-color: antiquewhite; width: 100%; height: 20%">
+          <div id="foodLogLunch" style="padding: 10px; overflow-y: auto; height: 100%">
+            <h3>Food Log (เที่ยง)</h3>
+            <ul id="foodListLunch" style="list-style-type: none; padding-left: 0; font-size: 16px">
+            </ul>
+          </div>
+        </div>
+
+        <div style="background-color: antiquewhite; width: 100%; height: 20%">
+          <div id="foodLogDinner" style="padding: 10px; overflow-y: auto; height: 100%">
+            <h3>Food Log (เย็น)</h3>
+            <ul id="foodListDinner" style="list-style-type: none; padding-left: 0; font-size: 16px">
+            </ul>
+          </div>
+        </div>
+      </div>
+
+
+
+    </div>
+    <div style="height: 300px;"></div>
+
+  </div>
+</div>
+<script>
+  var logfoodObj = new logfood();
+  logfoodObj.init();
+  function logfood() {
+    var myScroll;
+
+    var responseData = {
+      "food_items": [
+        {
+          "Item Name": "Orange Juice",
+          "Weight (grams)": 27.6,
+          "Calories": 12.8,
+          "Fat": 0.1,
+          "Carbohydrates": 3.0,
+          "Protein": 0.2,
+          "Sugars": 2.8,
+          "Sodium": 3.0,
+          "Vitamins": {
+            "Vitamin A": "10 IU",
+            "Vitamin C": "11.5 mg",
+            "Vitamin D": "0 IU",
+            "Vitamin E": "0.1 mg"
+          },
+          "mealType": "Breakfast"
+        },
+        {
+          "Item Name": "Orange Juice",
+          "Weight (grams)": 27.6,
+          "Calories": 333,
+          "Fat": 0.1,
+          "Carbohydrates": 3.0,
+          "Protein": 0.2,
+          "Sugars": 2.8,
+          "Sodium": 3.0,
+          "Vitamins": {
+            "Vitamin A": "10 IU",
+            "Vitamin C": "11.5 mg",
+            "Vitamin D": "0 IU",
+            "Vitamin E": "0.1 mg"
+          },
+          "mealType": "Lunch"
+        },
+        {
+          "Item Name": "Orange Juice",
+          "Weight (grams)": 27.6,
+          "Calories": 222,
+          "Fat": 0.1,
+          "Carbohydrates": 3.0,
+          "Protein": 0.2,
+          "Sugars": 2.8,
+          "Sodium": 3.0,
+          "Vitamins": {
+            "Vitamin A": "10 IU",
+            "Vitamin C": "11.5 mg",
+            "Vitamin D": "0 IU",
+            "Vitamin E": "0.1 mg"
+          },
+          "mealType": "Lunch"
+        }
+      ]
+    };
+
+    this.init = function () {
+      $("#logfoodHeader").css({
+        width: "100%",
+        height: headH,
+        left: -1.0 * w,
+        top: 0,
+      });
+      $("#logfoodPage").css({
+        width: w,
+        height: h - headH - menuH,
+        position: "absolute",
+        left: -1.0 * w,
+        top: headH,
+      });
+      myScroll = new IScroll("#logfoodPage", { probeType: 1, mouseWheel: true });
+      $('#selectcalender').attr("src", picRes['calender.png'])
+
+      $('#selectcalender').unbind()
+      $('#selectcalender').click(function (event) {
+        // event.stopPropagation(); // Prevent the click event from propagating to the document
+        var calendar = $('#calendarMore');
+        if (calendar.css("display") === "none") {
+          calendar.css("display", "grid");
+          logfoodObj.CalenderMore();
+
+        } else {
+          calendar.css("display", "none");
+        }
+      });
+
+      // Hide the calendar when clicking outside of it
+      // $(document).click(function (event) {
+      //   var calendar = $('#calendarMore');
+      //   if (calendar.css("display") === "grid" && !calendar.is(event.target) && calendar.has(event.target).length === 0) {
+      //     calendar.css("display", "none");
+      //   }
+      // });
+
+      // Prevent the click event on #calendarMore from closing it
+      $('#calendarMore').click(function (event) {
+        event.stopPropagation();
+      });
+      $('#resetdate').unbind()
+      $('#resetdate').click(function () {
+        logfoodObj.calender()
+      })
+      loadList();
+      displayCalories(500);
+      // processFoodData(responseData);
+      logfoodObj.call();
+    };
+    this.call = function () {
+      $("#logfoodPage").transition(
+        {
+          x: w,
+        },
+        0
+      );
+      $("#logfoodHeader").transition(
+        {
+          x: w,
+        },
+        0
+      );
+      myScroll.refresh();
+      logfoodObj.calender()
+      // logfoodObj.CalenderMore();
+    };
+    function processFoodData(data) {
+      document.getElementById("foodListBreakfast").innerHTML = '';
+      document.getElementById("foodListLunch").innerHTML = '';
+      document.getElementById("foodListDinner").innerHTML = '';
+
+      data.food_items.forEach(item => {
+        var listId;
+
+        switch (item.mealType) {
+          case 'Breakfast':
+            listId = 'foodListBreakfast';
+            break;
+          case 'Lunch':
+            listId = 'foodListLunch';
+            break;
+          case 'Dinner':
+            listId = 'foodListDinner';
+            break;
+          default:
+            console.error('Invalid meal type:', item.mealType);
+            return;
+        }
+
+        var list = document.getElementById(listId);
+        if (list) {
+          var listItem = document.createElement('li');
+          listItem.textContent = `${item["Item Name"]} - ${item["Calories"]} kcal, ${item["Weight (grams)"]}g`;
+          list.appendChild(listItem);
+        }
+      });
+    }
+
+    function displayCalories(calories) {
+      document.getElementById("calorieValue").textContent = calories;
+    }
+
+    function updateProgress(calories, goal) {
+      var percentage = (calories / goal) * 100;
+      var degree = (percentage / 100) * 360; // เปลี่ยนเปอร์เซ็นต์เป็นองศา
+
+      document
+        .getElementById("progressCircle")
+        .style.setProperty("--progress", degree + "deg");
+      document.getElementById("calorieValue").textContent = calories;
+    }
+
+    // ฟังก์ชันเพิ่มรายการอาหาร
+    function addFoodLog(food, calories) {
+      var foodList = document.getElementById("foodList");
+      var listItem = document.createElement("li");
+      listItem.textContent = food + " - " + calories + " kcal";
+      foodList.appendChild(listItem);
+    }
+    this.fetchFoodData = function (responseData) {
+      console.log(responseData, "responseData");
+
+    }
+    function loadList() {
+      myScroll = new IScroll("#logfoodPage", { probeType: 1, mouseWheel: true });
+
+      // myScroll.on("scroll", function () {
+      //   console.log("====>" + this.y);
+      // });
+
+      // myScroll.on("scrollEnd", function () {
+      //   console.log("====" + new Date());
+      // });
+      myScroll.refresh();
+    }
+    this.generateDates = function (centerDate) {
+      if (!(centerDate instanceof Date)) {
+        centerDate = new Date(centerDate);
+      }
+
+      if (!isNaN(centerDate.getTime())) {
+        var monthYearDisplay = $('#monthYear');
+        var datePicker = $('#datePicker');
+        var currentDateDisplay = $('#currentDate');
+        var scrollBtnRight = $('.right'); // Right scroll button element
+        console.log(centerDate, "centerDate");
+
+        var currentYear = centerDate.getFullYear();
+        var currentMonth = centerDate.getMonth();
+        var currentDay = centerDate.getDate();
+
+        console.log(`Current Date: ${currentDay}/${currentMonth + 1}/${currentYear}`);
+      } else {
+        console.error("Invalid Date:", centerDate);
+        return;
+      }
+
+      var monthNames = [
+        'January', 'February', 'March', 'April', 'May', 'June',
+        'July', 'August', 'September', 'October', 'November', 'December'
+      ];
+
+      monthYearDisplay.text(`${monthNames[currentMonth]} ${currentYear}`);
+
+      var dayLabels = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
+
+      var startOfWeek = new Date(centerDate);
+      startOfWeek.setDate(centerDate.getDate() - Math.floor(7 / 2));
+
+      var days = [];
+      for (var i = 0; i < 7; i++) {
+        var date = new Date(startOfWeek);
+        date.setDate(startOfWeek.getDate() + i);
+        days.push({
+          day: date.getDate(),
+          date: date,
+          dayLabel: dayLabels[date.getDay()]
+        });
+      }
+
+      datePicker.html('');
+
+      var labelsRow = $('<div></div>').addClass('day-labels');
+      days.forEach(dayObj => {
+        var labelDiv = $('<div></div>').addClass('day-label').text(dayObj.dayLabel);
+        labelsRow.append(labelDiv);
+      });
+      datePicker.append(labelsRow);
+
+      var datesContainer = $('<div></div>').addClass('dates-container');
+
+      var today = new Date();
+
+      days.forEach(dayObj => {
+        var dateDiv = $('<div></div>').addClass('date').text(dayObj.day);
+
+        if (dayObj.date.toDateString() === centerDate.toDateString()) {
+          dateDiv.addClass('selected');
+          currentSelectedDate = dayObj.date;
+          currentDateDisplay.text(currentSelectedDate.toDateString());
+        }
+
+        if (dayObj.date > today) {
+          dateDiv.addClass('future-day');
+        }
+
+        dateDiv.on('click', function () {
+          $('.date').removeClass('selected');
+          dateDiv.addClass('selected');
+          currentSelectedDate = dayObj.date;
+          currentDateDisplay.text(currentSelectedDate.toDateString());
+          logfoodObj.SendDateAPI(currentSelectedDate);
+
+          // เช็คว่าคลิกเลือกวันที่ตรงกับวันปัจจุบันหรือไม่
+          if (currentSelectedDate.toDateString() === today.toDateString()) {
+            scrollBtnRight.css("display", "none");
+          } else {
+            scrollBtnRight.css("display", "block");
+          }
+        });
+
+        datesContainer.append(dateDiv);
+      });
+
+      datePicker.append(datesContainer);
+
+      // ตรวจสอบว่าคลาส selected ตรงกับวันปัจจุบันหรือไม่ตอนโหลดหน้า
+      if (centerDate.toDateString() === today.toDateString()) {
+        scrollBtnRight.css("display", "none");
+      } else {
+        scrollBtnRight.css("display", "block");
+      }
+    };
+
+
+    this.calender = function (calender) {
+      var leftBtn = $('.scroll-btn.left');
+      var rightBtn = $('.scroll-btn.right');
+      var datePicker = $('#datePicker');
+      var monthYearDisplay = $('#monthYear');
+      var currentDateDisplay = $('#currentDate');
+      var currentSelectedDate;
+
+      if (calender === undefined) {
+        currentSelectedDate = new Date(); // เริ่มต้นด้วยวันปัจจุบัน
+      } else {
+        // แปลง `calender` จาก string เป็น `Date` object
+        currentSelectedDate = new Date(calender);
+        logfoodObj.SendDateAPI(currentSelectedDate);
+      }
+
+      console.log(currentSelectedDate, "currentSelectedDate");
+
+      logfoodObj.SendDateAPI(currentSelectedDate);
+      // ฟังก์ชันสำหรับสร้างวันที่และแสดงเดือน/ปี
+
+      // ฟังก์ชันสำหรับเลื่อนวันไปทางซ้ายหรือขวา
+      leftBtn.unbind();
+      leftBtn.on('click', function () {
+        currentSelectedDate.setDate(currentSelectedDate.getDate() - 1); // ลดวันที่ 1 วัน
+        logfoodObj.generateDates(currentSelectedDate);
+        logfoodObj.SendDateAPI(currentSelectedDate);
+      });
+
+      rightBtn.unbind();
+      rightBtn.on('click', function () {
+        currentSelectedDate.setDate(currentSelectedDate.getDate() + 1); // เพิ่มวันที่ 1 วัน
+        console.log(currentSelectedDate);
+
+        logfoodObj.generateDates(currentSelectedDate);
+        logfoodObj.SendDateAPI(currentSelectedDate);
+      });
+
+      // เรียกฟังก์ชันเพื่อสร้างวันที่และแสดงเดือน/ปี
+      logfoodObj.generateDates(currentSelectedDate);
+
+
+
+
+      myScroll = new IScroll("#logfoodPage", { probeType: 1, mouseWheel: true });
+    };
+    this.SendDateAPI = function (data) {
+      var date = new Date(data);
+      var year = date.getFullYear();
+      var month = String(date.getMonth() + 1).padStart(2, '0'); // เดือนนับจาก 0-11 ต้องบวก 1
+      var day = String(date.getDate()).padStart(2, '0');
+      var formattedDate = `${year}-${month}-${day}`;
+      console.log(formattedDate, "SendDateAPI");
+
+    }
+    this.CalenderMore = function () {
+      var calendarNode = $("#calendarMore");
+      var currDate = new Date();
+      var currYear = currDate.getFullYear();
+      var currMonth = currDate.getMonth() + 1; // Months are zero-based
+
+      var selectedYear = currYear;
+      var selectedMonth = currMonth;
+      var selectedMonthName = getMonthName(selectedYear, selectedMonth);
+      var selectedMonthDays = getDayCount(selectedYear, selectedMonth);
+
+      function getMonthName(year, month) {
+        var selectedDate = new Date(year, month - 1, 1);
+        return selectedDate.toLocaleString('default', { month: 'long' });
+      }
+
+      function getMonthText() {
+        if (selectedYear === currYear)
+          return selectedMonthName;
+        else
+          return selectedMonthName + ", " + selectedYear;
+      }
+
+      function getDayName(year, month, day) {
+        var selectedDate = new Date(year, month - 1, day);
+        return selectedDate.toLocaleDateString('en-US', { weekday: 'long' });
+      }
+
+      function getDayCount(year, month) {
+        return 32 - new Date(year, month - 1, 32).getDate();
+      }
+
+      function getDaysArray() {
+        var emptyFieldsCount = 0;
+        var emptyFields = [];
+        var days = [];
+
+        switch (getDayName(selectedYear, selectedMonth, 1)) {
+          case "Tuesday": emptyFieldsCount = 1; break;
+          case "Wednesday": emptyFieldsCount = 2; break;
+          case "Thursday": emptyFieldsCount = 3; break;
+          case "Friday": emptyFieldsCount = 4; break;
+          case "Saturday": emptyFieldsCount = 5; break;
+          case "Sunday": emptyFieldsCount = 6; break;
+        }
+
+        emptyFields = Array(emptyFieldsCount).fill("");
+        days = Array.from(Array(selectedMonthDays + 1).keys());
+        days.splice(0, 1);
+
+        return emptyFields.concat(days);
+      }
+
+      function renderDOM(year, month) {
+        var newCalendarNode = $("<div>", { id: "calendarMore", class: "calendarMore" });
+
+        // Header container with navigation and selectors
+        var headerContainer = $("<div>", { class: "calendar-header" });
+        var leftArrow = $("<div>", { class: "button" }).text("«").on("click", goToPrevMonth);
+        var curr = $("<div>", { class: "button date-selectors" });
+
+        // Date Selectors
+        // Create custom dropdown for months
+        var monthSelect = $("<div>", { id: "monthSelect", class: "custom-dropdown" });
+        var monthSelected = $("<div>", { class: "selected" }).text(new Date(currYear, selectedMonth - 1).toLocaleString('default', { month: 'long' }));
+        var monthOptionsContainer = $("<div>", { class: "dropdown-options", id: "dropdown-options_M" });
+
+        for (var i = 1; i <= 12; i++) {
+          var monthOption = $("<div>", { class: "dropdown-option" })
+            .data("value", i)
+            .text(new Date(currYear, i - 1).toLocaleString('default', { month: 'long' }));
+
+          if (i === selectedMonth) monthOption.addClass("selected-option");
+
+          monthOption.on("click", function () {
+            var value = $(this).data("value");
+            selectedMonth = value;
+            selectedMonthName = getMonthName(selectedYear, selectedMonth);
+            selectedMonthDays = getDayCount(selectedYear, selectedMonth);
+            monthSelected.text($(this).text());
+            renderDOM(selectedYear, selectedMonth);
+            monthOptionsContainer.hide();
+          });
+
+          monthOptionsContainer.append(monthOption);
+        }
+
+        monthSelect.append(monthSelected).append(monthOptionsContainer);
+
+        // Create custom dropdown for years
+        var yearSelect = $("<div>", { id: "yearSelect", class: "custom-dropdown" });
+        var yearSelected = $("<div>", { class: "selected" }).text(selectedYear);
+        var yearOptionsContainer = $("<div>", { class: "dropdown-options", id: "dropdown-options_Y" });
+
+        // Iterate from the current year down to 5 years back
+        for (var i = currYear; i >= currYear - 4; i--) {
+          var yearOption = $("<div>", { class: "dropdown-option" })
+            .data("value", i)
+            .text(i);
+
+          if (i === selectedYear) yearOption.addClass("selected-option");
+
+          yearOption.on("click", function () {
+            var value = $(this).data("value");
+            selectedYear = value;
+            selectedMonthDays = getDayCount(selectedYear, selectedMonth);
+            selectedMonthName = getMonthName(selectedYear, selectedMonth);
+            yearSelected.text(value);
+            renderDOM(selectedYear, selectedMonth);
+            yearOptionsContainer.hide();
+          });
+
+          yearOptionsContainer.append(yearOption);
+        }
+
+
+        yearSelect.append(yearSelected).append(yearOptionsContainer);
+
+        // Handle dropdown click to toggle options visibility
+
+        $(".custom-dropdown .selected").on("click", function () {
+          $(this).siblings(".dropdown-options").toggle();
+        });
+        // Append to your container
+        curr.append(monthSelect).append(yearSelect);
+
+        var rightArrow = $("<div>", { class: "button" }).text("»").on("click", goToNextMonth);
+
+        headerContainer.append(leftArrow).append(curr).append(rightArrow);
+        newCalendarNode.append(headerContainer);
+
+        // Wrapper for day names and days
+        var calendarGrid = $("<div>", { class: "calendar-grid" });
+
+        // Day Names
+        var dayNamesWrapper = $("<div>", { class: "day-names" });
+        var dayNames = ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"];
+        dayNames.forEach(function (cellText) {
+          var cellNode = $("<div>", { class: "cell--unselectable" }).text(cellText);
+          dayNamesWrapper.append(cellNode);
+        });
+
+        calendarGrid.append(dayNamesWrapper);
+
+        // Days
+        var daysWrapper = $("<div>", { class: "days" });
+        var days = getDaysArray();
+
+
+        days.forEach(function (cellText) {
+          var cellNode = $("<div>", { class: "cell" }).text(cellText);
+
+          if (cellText !== "") { // Avoid adding event listeners to empty cells
+            var fullDate = new Date(year, month - 1, cellText); // Construct the full date for comparison
+
+            if (fullDate.toDateString() === currDate.toDateString()) {
+              cellNode.addClass("current-day"); // Highlight the current day
+            } else if (fullDate > currDate) {
+              cellNode.addClass("future-day"); // Add a class for future days
+            }
+
+            // Continue with your existing logic for click event and sending the date to the API
+            cellNode.unbind();
+            cellNode.on("click", function () {
+              var month_2 = `${month}`.padStart(2, '0');
+              var DateSelect = `${year}-${month_2}-${cellText}`;
+              logfoodObj.calender(DateSelect);
+              console.log(DateSelect, "DateSelect");
+
+              var date_2 = new Date(DateSelect);
+              if (!isNaN(date_2.getTime())) {
+                var days_2 = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+                var months_2 = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+                var dayName_2 = days_2[date_2.getDay()];
+                var monthName_2 = months_2[date_2.getMonth()];
+                var day_2 = date_2.getDate();
+                var year_2 = date_2.getFullYear();
+                var time_2 = '00:00:00';
+                var timeZone_2 = 'GMT+0700 (Indochina Time)';
+                var formattedDate_2 = `${dayName_2} ${monthName_2} ${day_2} ${year_2} ${time_2} ${timeZone_2}`;
+                logfoodObj.generateDates(formattedDate_2);
+                logfoodObj.SendDateAPI(DateSelect);
+                $("#calendarMore").css({ "display": "none" });
+              } else {
+                console.error('Invalid Date:', DateSelect);
+              }
+            });
+          }
+
+          daysWrapper.append(cellNode);
+        });
+
+        calendarGrid.append(daysWrapper);
+        newCalendarNode.append(calendarGrid);
+
+        calendarNode.replaceWith(newCalendarNode);
+        calendarNode = $("#calendarMore");
+        $("#calendarMore").css("display", 'flex');
+
+        $("#monthSelect").on("click", function () {
+          var dropdownM = $("#dropdown-options_M");
+          $("#dropdown-options_Y").css("display", "none");
+          if (dropdownM.css("display") === "none") {
+            dropdownM.css("display", "flex");
+          } else {
+            dropdownM.css("display", "none");
+          }
+        });
+
+        $("#yearSelect").on("click", function () {
+          $("#dropdown-options_M").css("display", "none");
+          var dropdownY = $("#dropdown-options_Y");
+          if (dropdownY.css("display") === "none") {
+            dropdownY.css("display", "flex");
+          } else {
+            dropdownY.css("display", "none");
+          }
+        });
+
+      }
+
+
+      function goToPrevMonth() {
+        selectedMonth--;
+        if (selectedMonth === 0) {
+          selectedMonth = 12;
+          selectedYear--;
+        }
+        selectedMonthDays = getDayCount(selectedYear, selectedMonth);
+        selectedMonthName = getMonthName(selectedYear, selectedMonth);
+        renderDOM(selectedYear, selectedMonth);
+      }
+
+      function goToNextMonth() {
+        selectedMonth++;
+        if (selectedMonth === 13) {
+          selectedMonth = 1;
+          selectedYear++;
+        }
+        selectedMonthDays = getDayCount(selectedYear, selectedMonth);
+        selectedMonthName = getMonthName(selectedYear, selectedMonth);
+        renderDOM(selectedYear, selectedMonth);
+      }
+
+      function goToCurrDate() {
+        selectedYear = currYear;
+        selectedMonth = currMonth;
+        selectedMonthDays = getDayCount(selectedYear, selectedMonth);
+        selectedMonthName = getMonthName(selectedYear, selectedMonth);
+        renderDOM(selectedYear, selectedMonth);
+      }
+
+      // Initialize IScroll for jQuery
+      var myScroll = new IScroll("#logfoodPage", { probeType: 1, mouseWheel: true });
+
+      // Initial render
+      renderDOM(selectedYear, selectedMonth);
+    };
+
+
+
+  }
+</script>

@@ -1,0 +1,55 @@
+<div class="menuHeader" id="settingHeader"
+    style="position: absolute;display: flex;justify-content: center;align-items: center;font-size: 20px; font-weight: 700; background-color: transparent;">
+    <span id="settingHeaderBody">Setting</span>
+</div>
+<div class="menuPage bg-my" id="settingPage" style="position: absolute;overflow: hidden; background-color: transparent;">
+
+    <div id="scrollerMy">
+
+        <div style="height: 900px; "></div>
+
+    </div>
+
+</div>
+<script>
+    var settingObj = new setting();
+    settingObj.init();
+
+    function setting() {
+
+        var myScroll;
+
+        this.init = function () {
+
+            $("#settingHeader").css({ "width": "100%", "height": headH, "left": (-1.0) * w, "top": 0 });
+            $("#settingPage").css({ "width": w, "height": h - headH - menuH, "position": "absolute", "left": (-1.0) * w, "top": headH });
+            myScroll = new IScroll('#settingPage', { probeType: 1, mouseWheel: true });
+            loadList();
+
+        }
+        this.call = function () {
+
+            $("#settingPage").transition({
+                x: w
+            }, 0);
+            $("#settingHeader").transition({
+                x: w
+            }, 0);
+            myScroll.refresh()
+        }
+
+        function loadList() {
+            myScroll = new IScroll('#settingPage', { probeType: 1, mouseWheel: true });
+
+            myScroll.on('scroll', function () {
+                console.log("====>" + this.y);
+            });
+
+            myScroll.on('scrollEnd', function () {
+                console.log('====' + (new Date()));
+            });
+            myScroll.refresh();
+        }
+
+    }
+</script>
